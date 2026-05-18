@@ -58,7 +58,7 @@ export default function CaseStudies() {
                   <span className="text-[10px] font-jakarta font-bold uppercase tracking-[0.25em] text-primary mb-4 block">
                     {project.flag}
                   </span>
-                  <h3 className="text-3xl lg:text-4xl font-jakarta font-bold text-foreground tracking-tight leading-tight">
+                  <h3 className="text-3xl lg:text-4xl font-jakarta font-bold text-foreground tracking-tight leading-tight min-h-[5rem] lg:min-h-[6rem]">
                     {project.title}
                   </h3>
                 </div>
