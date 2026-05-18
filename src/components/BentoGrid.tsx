@@ -66,7 +66,7 @@ export default function BentoGrid() {
               }}
               className={cn(
                 "glass rounded-3xl p-8 relative overflow-hidden group cursor-pointer",
-                cluster.span
+                cluster.className
               )}
             >
               <div className="absolute top-0 right-0 p-8 text-8xl font-jakarta font-black text-foreground/5 group-hover:text-primary/5 transition-colors duration-500">
