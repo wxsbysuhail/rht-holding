@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RHT Holding — Leadership Through Innovation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0A1628;--navy-mid:#112240;--navy-deep:#060E1A;--red:#E8192C;--red-dark:#B5141E;--gold:#C9A84C;--white:#FAFAFA;--grey:#8A93A2;--glass:rgba(255,255,255,.04);--gb:rgba(255,255,255,.08);--ease:cubic-bezier(.25,.46,.45,.94)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--white);font-family:'DM Sans',sans-serif;overflow-x:hidden;cursor:none}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--navy-deep)}::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px}
+
+#progress-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--red),#FF6B6B);z-index:2000;transition:width .1s linear;pointer-events:none}
+
+#loader{position:fixed;inset:0;z-index:9000;background:var(--navy-deep);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .7s var(--ease),visibility .7s}
+#loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.ld-logo{font-family:'Bebas Neue',sans-serif;font-size:4.5rem;letter-spacing:.15em;color:var(--white);animation:fadeIn .5s ease forwards}
+.ld-logo span{color:var(--red)}
+.ld-sub{font-family:'Syne',sans-serif;font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;color:var(--grey);margin-top:.4rem}
+.ld-bar-wrap{width:260px;height:1px;background:var(--gb);margin-top:2.5rem;overflow:hidden;border-radius:1px}
+.ld-bar{height:100%;width:0;background:linear-gradient(90deg,var(--red),#FF6B6B);animation:loadBar 1.9s var(--ease) forwards}
+.ld-pct{font-family:'Syne',sans-serif;font-size:.65rem;letter-spacing:.28em;text-transform:uppercase;color:var(--grey);margin-top:.9rem}
+@keyframes loadBar{to{width:100%}}
+
+.cursor{position:fixed;width:10px;height:10px;background:var(--red);border-radius:50%;pointer-events:none;z-index:8999;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s}
+.cursor-ring{position:fixed;width:38px;height:38px;border:1.5px solid rgba(232,25,44,.45);border-radius:50%;pointer-events:none;z-index:8998;transform:translate(-50%,-50%);transition:width .3s,height .3s}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.8rem 5rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s var(--ease)}
+nav.scrolled{background:rgba(10,22,40,.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);padding:1rem 5rem;border-bottom:1px solid var(--gb)}
+.nav-logo{display:flex;flex-direction:column;text-decoration:none}
+.nav-logo-main{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:.12em;color:var(--white);line-height:1}
+.nav-logo-main span{color:var(--red)}
+.nav-logo-sub{font-size:.5rem;letter-spacing:.25em;text-transform:uppercase;color:var(--grey);margin-top:1px}
+.nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
+.nav-links a{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);text-decoration:none;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--red);transition:width .3s}
+.nav-links a:hover{color:var(--white)}.nav-links a:hover::after{width:100%}
+.nav-cta{background:var(--red)!important;color:var(--white)!important;padding:.55rem 1.4rem;border-radius:2px;transition:background .3s!important}.nav-cta:hover{background:var(--red-dark)!important}.nav-cta::after{display:none!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--white);border-radius:1px;transition:all .3s}
+
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;padding:0 5rem;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 65% at 68% 50%,rgba(232,25,44,.07) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 18% 80%,rgba(201,168,76,.04) 0%,transparent 50%),linear-gradient(140deg,#04090F 0%,#0A1628 45%,#0E213F 100%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 90% 85% at 50% 50%,black 20%,transparent 78%)}
+.hero-content{position:relative;z-index:2;max-width:780px}
+.hero-eyebrow{display:flex;align-items:center;gap:1rem;margin-bottom:2rem;opacity:0;animation:fadeUp .8s .4s var(--ease) forwards}
+.eyebrow-line{width:36px;height:1px;background:var(--red)}
+.eyebrow-text{font-family:'Syne',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--red)}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(4.5rem,9.5vw,9.5rem);line-height:.9;letter-spacing:.02em;opacity:0;animation:fadeUp .9s .6s var(--ease) forwards}
+.hero-title em{font-style:normal;background:linear-gradient(130deg,var(--red) 0%,#FF6B6B 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{margin-top:2rem;font-size:1rem;line-height:1.75;color:rgba(255,255,255,.5);font-weight:300;max-width:480px;opacity:0;animation:fadeUp .9s .8s var(--ease) forwards}
+.hero-actions{display:flex;gap:1.2rem;align-items:center;margin-top:3rem;flex-wrap:wrap;opacity:0;animation:fadeUp .9s 1s var(--ease) forwards}
+.btn-primary{display:inline-flex;align-items:center;gap:.7rem;background:var(--red);color:var(--white);padding:1rem 2.2rem;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:transform .3s,box-shadow .3s;position:relative;overflow:hidden;border:none;cursor:none}
+.btn-primary::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.12);transform:translateX(-101%);transition:transform .35s}
+.btn-primary:hover::before{transform:translateX(0)}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(232,25,44,.35)}
+.btn-primary svg,.btn-ghost svg{transition:transform .3s}.btn-primary:hover svg,.btn-ghost:hover svg{transform:translateX(4px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:.7rem;color:rgba(255,255,255,.65);font-family:'Syne',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;transition:color .3s;cursor:none}
+.btn-ghost:hover{color:var(--white)}
+.hero-right{position:absolute;right:5rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:1.8rem;opacity:0;animation:fadeIn 1s 1.2s var(--ease) forwards}
+.hero-stat{text-align:right;padding:1.4rem 1.6rem;border-right:2px solid var(--red)}
+.hero-stat-num{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--white);line-height:1;letter-spacing:.03em}
+.hero-stat-num .unit{font-size:1.8rem;color:var(--red)}
+.hero-stat-label{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);margin-top:.2rem}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.6rem;opacity:0;animation:fadeIn 1s 1.5s forwards}
+.hero-scroll-text{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.hero-scroll-line{width:1px;height:52px;background:linear-gradient(to bottom,rgba(255,255,255,.3),transparent);animation:scrollPulse 2.2s ease-in-out infinite}
+
+.marquee-section{padding:0;overflow:hidden;border-top:1px solid var(--gb);border-bottom:1px solid var(--gb);background:rgba(232,25,44,.025)}
+.marquee-track{display:flex;align-items:center;width:max-content;animation:marquee 28s linear infinite;padding:1.2rem 0}
+.marquee-item{display:flex;align-items:center;gap:1rem;padding:0 2.5rem;white-space:nowrap}
+.marquee-dot{width:5px;height:5px;background:var(--red);border-radius:50%;flex-shrink:0}
+.marquee-text{font-family:'Syne',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--grey)}
+
+section{padding:9rem 5rem}
+.section-label{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.sll{width:28px;height:1px;background:var(--red)}
+.slt{font-family:'Syne',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--red)}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,5.5vw,5.5rem);line-height:1;letter-spacing:.02em}
+.section-title em{font-style:normal;color:var(--red)}
+
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.rd1{transition-delay:.08s}.rd2{transition-delay:.18s}.rd3{transition-delay:.28s}.rd4{transition-delay:.38s}.rd5{transition-delay:.48s}
+
+/* ABOUT */
+.about{background:var(--navy)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:center;margin-top:5rem}
+.about-visual{position:relative;height:540px}
+.avc{position:absolute;inset:0;background:var(--glass);border:1px solid var(--gb);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:2.8rem}
+.avc-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 25%,rgba(232,25,44,.13),transparent 60%),linear-gradient(135deg,var(--navy-mid),var(--navy))}
+.avc-ghost{position:absolute;top:.5rem;right:1rem;font-family:'Bebas Neue',sans-serif;font-size:9rem;line-height:1;color:rgba(255,255,255,.04);user-select:none}
+.avc-content{position:relative;z-index:1}
+.avc-tag{font-family:'Syne',sans-serif;font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--red);margin-bottom:.8rem}
+.avc-num{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:var(--white);line-height:1;letter-spacing:.03em}
+.avc-desc{font-size:.82rem;color:var(--grey);margin-top:.5rem;line-height:1.65}
+.aff{position:absolute;top:-1.5rem;right:-1.5rem;display:flex;flex-direction:column;gap:.9rem}
+.af{background:var(--navy-mid);border:1px solid var(--gb);border-radius:4px;padding:1.2rem 1.5rem;width:168px;transition:border-color .3s,transform .3s}
+.af:hover{border-color:rgba(232,25,44,.3);transform:translateX(-4px)}
+.af-num{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--white);line-height:1}
+.af-num b{color:var(--red);font-style:normal}
+.af-label{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--grey);margin-top:.2rem}
+.about-desc{font-size:1rem;line-height:1.82;color:rgba(255,255,255,.55);font-weight:300;margin-top:2rem}
+.about-desc strong{color:var(--white);font-weight:500}
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2.5rem}
+.pillar{padding:1.6rem;border:1px solid var(--gb);border-radius:4px;background:var(--glass);transition:border-color .3s,background .3s,transform .3s}
+.pillar:hover{border-color:rgba(232,25,44,.3);background:rgba(232,25,44,.04);transform:translateY(-3px)}
+.pillar-icon{font-size:1.4rem;margin-bottom:.9rem}
+.pillar-title{font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--white);margin-bottom:.4rem}
+.pillar-desc{font-size:.78rem;color:var(--grey);line-height:1.65}
+
+/* NUMBERS */
+.numbers-band{background:var(--navy-mid);padding:5.5rem 5rem;border-top:1px solid var(--gb);border-bottom:1px solid var(--gb)}
+.numbers-inner{display:grid;grid-template-columns:repeat(5,1fr)}
+.nb{text-align:center;padding:2rem 1rem;position:relative}
+.nb+.nb::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:1px;background:var(--gb)}
+.nb-num{font-family:'Bebas Neue',sans-serif;font-size:3.8rem;color:var(--white);line-height:1;letter-spacing:.03em}
+.nb-num span{color:var(--red)}
+.nb-label{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);margin-top:.4rem}
+
+/* TIMELINE */
+.timeline-section{background:linear-gradient(180deg,var(--navy) 0%,var(--navy-mid) 100%);position:relative;overflow:hidden}
+.tl-ghost{position:absolute;top:50%;left:-3rem;transform:translateY(-50%) rotate(-90deg);font-family:'Bebas Neue',sans-serif;font-size:14rem;color:rgba(255,255,255,.012);white-space:nowrap;pointer-events:none;user-select:none}
+.tl-wrap{margin-top:4.5rem;position:relative;padding:4rem 0;overflow:hidden}
+.tl-line{position:absolute;top:50%;left:0;right:0;height:1px;background:var(--gb)}
+.tl-items{display:flex;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;padding:0 2rem;cursor:grab}
+.tl-items::-webkit-scrollbar{display:none}
+.tl-items:active{cursor:grabbing}
+.tl-item{flex:0 0 210px;position:relative;padding:0 1.5rem}
+.tl-item:nth-child(odd){padding-bottom:9rem;padding-top:1rem;text-align:right}
+.tl-item:nth-child(even){padding-top:9rem;padding-bottom:1rem}
+.tl-dot{position:absolute;left:50%;transform:translateX(-50%);width:10px;height:10px;background:var(--red);border-radius:50%;border:2px solid var(--navy-mid);top:calc(50% - 5px);transition:transform .3s,box-shadow .3s;z-index:1}
+.tl-item:hover .tl-dot{transform:translateX(-50%) scale(2);box-shadow:0 0 0 6px rgba(232,25,44,.15)}
+.tl-year{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--red);letter-spacing:.04em;line-height:1}
+.tl-event{font-size:.72rem;color:var(--grey);line-height:1.55;margin-top:.4rem}
+.tl-event strong{color:var(--white)}
+
+/* CLUSTERS */
+.clusters{background:var(--navy)}
+.clusters-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:5rem;border-radius:6px;overflow:hidden}
+.cc{background:var(--navy-mid);padding:3.5rem 2.5rem;position:relative;overflow:hidden;transition:background .4s;cursor:default}
+.cc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(232,25,44,.08),transparent);opacity:0;transition:opacity .4s}
+.cc:hover::before{opacity:1}.cc:hover{background:rgba(18,37,65,.95)}
+.cc-num{position:absolute;top:1.2rem;right:1.8rem;font-family:'Bebas Neue',sans-serif;font-size:5.5rem;color:rgba(255,255,255,.03);line-height:1;transition:color .4s}
+.cc:hover .cc-num{color:rgba(232,25,44,.07)}
+.cc-icon{width:50px;height:50px;background:rgba(232,25,44,.1);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:2rem;transition:background .3s,transform .3s}
+.cc:hover .cc-icon{background:rgba(232,25,44,.2);transform:scale(1.05)}
+.cc-cat{font-family:'Syne',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--red);margin-bottom:.7rem}
+.cc-title{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--white);line-height:1;letter-spacing:.03em;margin-bottom:1.2rem}
+.cc-desc{font-size:.83rem;color:var(--grey);line-height:1.75;font-weight:300}
+.cc-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:2rem}
+.cc-tag{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);border:1px solid var(--gb);padding:.28rem .7rem;border-radius:2px;transition:all .3s}
+.cc:hover .cc-tag{border-color:rgba(232,25,44,.25);color:rgba(255,255,255,.55)}
+
+/* COMPANIES */
+.co-strip{background:var(--navy-mid);padding:4rem 5rem;border-top:1px solid var(--gb)}
+.co-label{font-family:'Syne',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--grey);text-align:center;margin-bottom:2.5rem}
+.co-logos{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center}
+.co-logo{padding:1rem 2rem;border:1px solid var(--gb);border-radius:3px;background:var(--glass);font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);transition:all .3s;cursor:default}
+.co-logo:hover{border-color:rgba(232,25,44,.3);color:var(--white);background:rgba(232,25,44,.05)}
+
+/* PRESENCE */
+.presence{background:var(--navy-deep);position:relative;overflow:hidden}
+.presence-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:7rem;align-items:center;margin-top:5rem}
+.map-container{position:relative;width:100%;max-width:500px}
+.pulse-legend{display:flex;flex-direction:column;gap:.8rem;margin-top:2rem}
+.pl-item{display:flex;align-items:center;gap:.8rem;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--grey)}
+.pl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.presence-intro{font-size:.95rem;line-height:1.8;color:rgba(255,255,255,.5);font-weight:300;margin-bottom:2rem;max-width:430px}
+.presence-intro strong{color:var(--white)}
+.pl-country{display:flex;align-items:center;gap:1.5rem;padding:1.2rem 1.5rem;border:1px solid var(--gb);border-radius:4px;background:var(--glass);transition:all .3s;cursor:default;margin-bottom:.9rem}
+.pl-country:hover{border-color:rgba(232,25,44,.3);transform:translateX(8px);background:rgba(232,25,44,.04)}
+.pl-country-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.pl-country-name{font-family:'Syne',sans-serif;font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--white);flex:1}
+.pl-country-role{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
+
+/* BRT */
+.brt{background:var(--navy)}
+.brt-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:7rem;align-items:center;margin-top:5rem}
+.brt-orbit{position:relative;width:420px;height:420px;margin:0 auto}
+.brt-core{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:110px;height:110px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.12em;color:var(--white);box-shadow:0 0 0 16px rgba(232,25,44,.1),0 0 60px rgba(232,25,44,.25);z-index:2;animation:pulse3d 3s ease-in-out infinite}
+.brt-ring{position:absolute;top:50%;left:50%;border-radius:50%;border:1px solid rgba(232,25,44,.2);transform:translate(-50%,-50%);width:240px;height:240px;animation:spin 18s linear infinite}
+.brt-ring2{position:absolute;top:50%;left:50%;border-radius:50%;border:1px solid rgba(255,255,255,.05);transform:translate(-50%,-50%);width:390px;height:390px;animation:spin 28s linear infinite reverse}
+.brt-node{position:absolute;display:flex;flex-direction:column;align-items:center;z-index:3}
+.brt-node-dot{width:9px;height:9px;background:var(--red);border-radius:50%;box-shadow:0 0 0 4px rgba(232,25,44,.15);margin-bottom:.3rem}
+.brt-node-lbl{font-family:'Syne',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);white-space:nowrap;background:var(--navy-deep);padding:.15rem .4rem;border-radius:2px}
+.brt-feats{display:flex;flex-direction:column;gap:1.4rem}
+.brt-feat{display:flex;gap:1.5rem;align-items:flex-start;padding:1.6rem;border:1px solid var(--gb);border-radius:4px;transition:border-color .3s,transform .3s}
+.brt-feat:hover{border-color:rgba(232,25,44,.3);transform:translateX(6px)}
+.brt-feat-icon{font-size:1.5rem;flex-shrink:0;margin-top:.1rem}
+.brt-feat-title{font-family:'Syne',sans-serif;font-size:.76rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--white);margin-bottom:.4rem}
+.brt-feat-desc{font-size:.78rem;color:var(--grey);line-height:1.65}
+
+/* CASES */
+.cases{background:var(--navy-mid)}
+.cases-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:5rem}
+.case-card{border:1px solid var(--gb);border-radius:6px;overflow:hidden;background:var(--navy);transition:transform .35s var(--ease),border-color .3s,box-shadow .35s}
+.case-card:hover{transform:translateY(-8px);border-color:rgba(232,25,44,.25);box-shadow:0 24px 60px rgba(0,0,0,.4)}
+.case-top{padding:2.8rem;background:linear-gradient(140deg,rgba(232,25,44,.1),rgba(232,25,44,.03));border-bottom:1px solid var(--gb);position:relative;overflow:hidden}
+.case-ghost{position:absolute;top:-1.5rem;right:-.5rem;font-family:'Bebas Neue',sans-serif;font-size:7rem;color:rgba(255,255,255,.03);line-height:1;pointer-events:none}
+.case-flag{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:.9rem;font-family:'Syne',sans-serif;font-weight:700}
+.case-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--white);line-height:1;letter-spacing:.03em}
+.case-body{padding:2.2rem 2.8rem}
+.case-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin-bottom:1.8rem}
+.kpi-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--white);letter-spacing:.03em;line-height:1}
+.kpi-num b{color:var(--red);font-style:normal}
+.kpi-lbl{font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;color:var(--grey);margin-top:.2rem}
+.case-desc{font-size:.8rem;color:var(--grey);line-height:1.75}
+
+/* WHY */
+.why{background:var(--navy)}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:5rem}
+.why-card{padding:2.5rem;border:1px solid var(--gb);border-radius:4px;background:var(--glass);position:relative;overflow:hidden;transition:border-color .3s,background .3s,transform .3s}
+.why-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+.why-card:hover{transform:translateY(-5px);border-color:rgba(232,25,44,.2);background:rgba(232,25,44,.04)}
+.why-card:hover::after{transform:scaleX(1)}
+.why-num{font-family:'Bebas Neue',sans-serif;font-size:4.5rem;color:rgba(255,255,255,.04);line-height:1;margin-bottom:2rem;transition:color .3s}
+.why-card:hover .why-num{color:rgba(232,25,44,.07)}
+.why-title{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--white);margin-bottom:.8rem}
+.why-desc{font-size:.8rem;color:var(--grey);line-height:1.72}
+
+/* CLIENTS */
+.clients-section{background:var(--navy-mid);padding:7rem 5rem}
+.clients-chips{display:flex;flex-wrap:wrap;gap:1rem;margin-top:4rem;justify-content:center}
+.client-chip{display:flex;align-items:center;gap:.8rem;padding:1rem 1.8rem;border:1px solid var(--gb);border-radius:100px;background:var(--glass);transition:all .3s;cursor:default}
+.client-chip:hover{border-color:rgba(232,25,44,.35);background:rgba(232,25,44,.05);transform:translateY(-3px)}
+.client-chip-flag{font-size:1.1rem}
+.client-chip-name{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);transition:color .3s}
+.client-chip:hover .client-chip-name{color:var(--white)}
+
+/* TEAM */
+.team{background:var(--navy)}
+.team-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1.5rem;margin-top:5rem}
+.tm{padding:2rem 1.5rem;border:1px solid var(--gb);border-radius:4px;background:var(--glass);text-align:center;transition:all .3s;cursor:default;position:relative;overflow:hidden}
+.tm::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transition:transform .4s;transform-origin:left}
+.tm:hover{border-color:rgba(232,25,44,.25);background:rgba(232,25,44,.04);transform:translateY(-5px)}
+.tm:hover::after{transform:scaleX(1)}
+.tm-av{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,rgba(232,25,44,.18),rgba(232,25,44,.05));border:2px solid rgba(232,25,44,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--red);letter-spacing:.06em;transition:border-color .3s,box-shadow .3s}
+.tm:hover .tm-av{border-color:rgba(232,25,44,.5);box-shadow:0 0 20px rgba(232,25,44,.2)}
+.tm-name{font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;color:var(--white);letter-spacing:.04em;line-height:1.3}
+.tm-role{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-top:.4rem;line-height:1.45}
+
+/* PARTNERS */
+.partners{background:var(--navy-mid)}
+.partners-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;margin-top:5rem}
+.pc-title{font-family:'Syne',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--red);margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--gb)}
+.partner-list{display:flex;flex-direction:column;gap:.9rem}
+.partner-item{padding:1.1rem 1.5rem;border:1px solid var(--gb);border-radius:3px;background:var(--glass);font-family:'Syne',sans-serif;font-size:.76rem;font-weight:600;color:var(--grey);letter-spacing:.07em;transition:all .3s;cursor:default}
+.partner-item:hover{border-color:rgba(232,25,44,.3);color:var(--white);background:rgba(232,25,44,.04);transform:translateX(5px)}
+
+/* CTA */
+.cta{padding:11rem 5rem;background:linear-gradient(150deg,#04090F 0%,var(--navy) 60%,#0E1F38 100%);text-align:center;position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(232,25,44,.07),transparent 65%);pointer-events:none}
+.cta-ring1,.cta-ring2{position:absolute;top:50%;left:50%;border-radius:50%;border:1px solid rgba(232,25,44,.06);pointer-events:none}
+.cta-ring1{width:600px;height:600px;transform:translate(-50%,-50%);animation:spin 30s linear infinite}
+.cta-ring2{width:400px;height:400px;transform:translate(-50%,-50%);animation:spin 20s linear infinite reverse}
+.cta-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,8vw,8rem);color:var(--white);line-height:.95;letter-spacing:.02em;position:relative;z-index:1}
+.cta-title span{color:var(--red)}
+.cta-sub{font-size:1rem;color:rgba(255,255,255,.45);margin:1.8rem auto 3rem;max-width:500px;font-weight:300;line-height:1.75;position:relative;z-index:1}
+.cta-actions{display:flex;gap:1.2rem;justify-content:center;align-items:center;flex-wrap:wrap;position:relative;z-index:1}
+.cta-contact{font-size:.75rem;color:var(--grey);margin-top:2.5rem;position:relative;z-index:1}
+.cta-contact a{color:var(--red);text-decoration:none;transition:color .3s}.cta-contact a:hover{color:var(--white)}
+
+/* FOOTER */
+footer{background:#030812;padding:5rem 5rem 2.5rem;border-top:1px solid var(--gb)}
+.ft{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:4rem;padding-bottom:3.5rem;border-bottom:1px solid var(--gb)}
+.ft-brand-name{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.12em;color:var(--white)}
+.ft-brand-name span{color:var(--red)}
+.ft-brand-desc{font-size:.8rem;color:var(--grey);margin-top:1rem;line-height:1.75;max-width:290px}
+.ft-contact-list{margin-top:1.5rem;display:flex;flex-direction:column;gap:.55rem}
+.ft-ci{font-size:.72rem;color:rgba(255,255,255,.3);display:flex;align-items:center;gap:.6rem;transition:color .3s}.ft-ci:hover{color:var(--grey)}
+.ft-col-title{font-family:'Syne',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:1.5rem}
+.ft-links{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.ft-links a{font-size:.78rem;color:var(--grey);text-decoration:none;transition:color .3s}.ft-links a:hover{color:var(--red)}
+.ft-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;flex-wrap:wrap;gap:1rem}
+.ft-copy{font-size:.68rem;color:rgba(255,255,255,.18);letter-spacing:.07em}
+.ft-bl{display:flex;gap:2rem;list-style:none}
+.ft-bl a{font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.18);text-decoration:none;transition:color .3s}.ft-bl a:hover{color:var(--red)}
+.ft-social{display:flex;gap:.8rem;margin-top:1.5rem}
+.ft-si{width:34px;height:34px;border:1px solid var(--gb);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--grey);text-decoration:none;font-size:.8rem;transition:all .3s;font-family:'Syne',sans-serif;font-weight:700}
+.ft-si:hover{border-color:rgba(232,25,44,.4);color:var(--white);background:rgba(232,25,44,.08)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@keyframes scrollPulse{0%,100%{opacity:.35}50%{opacity:.9}}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes pulse3d{0%,100%{box-shadow:0 0 0 16px rgba(232,25,44,.1),0 0 60px rgba(232,25,44,.25)}50%{box-shadow:0 0 0 22px rgba(232,25,44,.07),0 0 80px rgba(232,25,44,.18)}}
+
+@media(max-width:1200px){
+  nav,nav.scrolled{padding-left:2.5rem;padding-right:2.5rem}
+  section{padding:7rem 2.5rem}
+  .hero{padding:0 2.5rem}.hero-right{right:2.5rem}
+  .about-grid,.presence-grid,.brt-grid{grid-template-columns:1fr;gap:4rem}
+  .about-visual{height:420px}.aff{right:0}
+  .numbers-inner{grid-template-columns:repeat(3,1fr)}
+  .clusters-grid{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:repeat(3,1fr)}
+  .why-grid{grid-template-columns:repeat(2,1fr)}
+  .ft{grid-template-columns:1fr 1fr;gap:2.5rem}
+  .numbers-band{padding:5rem 2.5rem}
+  .co-strip,.clients-section{padding:4rem 2.5rem}
+}
+@media(max-width:768px){
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(6,14,26,.97);backdrop-filter:blur(20px);padding:2rem 2.5rem;flex-direction:column;gap:1.5rem;border-bottom:1px solid var(--gb)}
+  .nav-links.open{display:flex}
+  .hamburger{display:flex}
+  .hero-title{font-size:3.8rem}.hero-right{display:none}
+  .partners-cats,.cases-grid{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+  .why-grid{grid-template-columns:1fr}
+  .ft{grid-template-columns:1fr}
+  .numbers-inner{grid-template-columns:repeat(2,1fr)}
+  .ft-bottom{flex-direction:column;text-align:center}
+  .brt-orbit{width:300px;height:300px}
+  .cta{padding:7rem 2rem}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div id="loader">
+  <div class="ld-logo">RH<span>T</span></div>
+  <div class="ld-sub">Holding Ltd &nbsp;·&nbsp; Est. 1954</div>
+  <div class="ld-bar-wrap"><div class="ld-bar"></div></div>
+  <div class="ld-pct" id="loaderPct">Loading...</div>
+</div>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-main">RH<span>T</span></span>
+    <span class="nav-logo-sub">Holding Ltd</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#clusters">Clusters</a></li>
+    <li><a href="#timeline">History</a></li>
+    <li><a href="#presence">Presence</a></li>
+    <li><a href="#cases">Projects</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Since 1954 · Mauritius &amp; Africa</span>
+    </div>
+    <h1 class="hero-title">Leadership<br>Through<br><em>Innovation</em></h1>
+    <p class="hero-sub">An integrator of innovative solutions addressing and transforming mobility, technology &amp; investment needs across Africa and beyond.</p>
+    <div class="hero-actions">
+      <a href="#clusters" class="btn-primary">Explore Our Clusters <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="#cases" class="btn-ghost">View Projects <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat"><div class="hero-stat-num">25K<span class="unit">+</span></div><div class="hero-stat-label">Daily Passengers</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">400<span class="unit">+</span></div><div class="hero-stat-label">Employees</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">4</div><div class="hero-stat-label">Countries</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">70<span class="unit">+</span></div><div class="hero-stat-label">Years Excellence</div></div>
+  </div>
+  <div class="hero-scroll"><span class="hero-scroll-text">Scroll</span><div class="hero-scroll-line"></div></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Mobility Solutions</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Technology Innovation</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Investment Management</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Bus Rapid Transit</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Fleet Management</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Electric Vehicles</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">GPS Telematics</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">African Expansion</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Sustainable Transport</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Cashless Payment</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Mobility Solutions</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Technology Innovation</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Investment Management</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Bus Rapid Transit</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Fleet Management</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Electric Vehicles</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">GPS Telematics</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">African Expansion</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Sustainable Transport</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span class="marquee-text">Cashless Payment</span></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-label reveal"><div class="sll"></div><span class="slt">Who We Are</span></div>
+  <h2 class="section-title reveal rd1">A LEGACY OF <em>BOLD</em><br>TRANSFORMATION</h2>
+  <div class="about-grid">
+    <div class="about-visual reveal rd2">
+      <div class="avc"><div class="avc-bg"></div><div class="avc-ghost">70</div><div class="avc-content"><div class="avc-tag">Incorporated · Rose-Hill, Mauritius · 1954</div><div class="avc-num">7 Decades</div><div class="avc-desc">Pioneering sustainable mobility solutions from Mauritius to Africa and beyond.</div></div></div>
+      <div class="aff">
+        <div class="af"><div class="af-num"><b>8</b></div><div class="af-label">Business Segments</div></div>
+        <div class="af"><div class="af-num"><b>100</b>+</div><div class="af-label">Global Clients</div></div>
+        <div class="af"><div class="af-num"><b>6</b></div><div class="af-label">Offices Worldwide</div></div>
+      </div>
+    </div>
+    <div>
+      <p class="about-desc reveal rd2">RHT Holding is an <strong>integrator of innovative solutions</strong> addressing and transforming mobility, technology and investment needs worldwide. Founded as Rose Hill Transport Ltd, we evolved into a multi-segment holding company across four countries.</p>
+      <p class="about-desc reveal rd3" style="margin-top:.9rem">Listed on the <strong>Development and Enterprise Market</strong> of the Stock Exchange of Mauritius and a member of the <strong>SEMSI Sustainability Index</strong>, we are committed to a greener, safer, and better tomorrow.</p>
+      <div class="pillars">
+        <div class="pillar reveal rd2"><div class="pillar-icon">🚀</div><div class="pillar-title">Innovation</div><div class="pillar-desc">Modern solutions for everyone — from electric buses to smart transit AI</div></div>
+        <div class="pillar reveal rd3"><div class="pillar-icon">🌱</div><div class="pillar-title">Sustainability</div><div class="pillar-desc">Contributing to a greener, safer and better tomorrow through every decision</div></div>
+        <div class="pillar reveal rd2"><div class="pillar-icon">🤝</div><div class="pillar-title">Employment</div><div class="pillar-desc">Stimulating jobs and economic growth in local communities across Africa</div></div>
+        <div class="pillar reveal rd3"><div class="pillar-icon">⚖️</div><div class="pillar-title">Diversity</div><div class="pillar-desc">Promoting differences and gender equality across all levels of the organisation</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NUMBERS BAND -->
+<div class="numbers-band">
+  <div class="numbers-inner">
+    <div class="nb reveal"><div class="nb-num" data-count="25000" data-suffix="+">25K<span>+</span></div><div class="nb-label">Daily Passengers</div></div>
+    <div class="nb reveal rd1"><div class="nb-num" data-count="400" data-suffix="+">400<span>+</span></div><div class="nb-label">Employees</div></div>
+    <div class="nb reveal rd2"><div class="nb-num">4</div><div class="nb-label">Countries</div></div>
+    <div class="nb reveal rd3"><div class="nb-num" data-count="100" data-suffix="+">100<span>+</span></div><div class="nb-label">Global Clients</div></div>
+    <div class="nb reveal rd4"><div class="nb-num">8</div><div class="nb-label">Business Segments</div></div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<section class="timeline-section" id="timeline">
+  <div class="tl-ghost">GROWTH</div>
+  <div class="section-label reveal"><div class="sll"></div><span class="slt">Our Journey</span></div>
+  <h2 class="section-title reveal rd1">A SOLID <em>GROWTH</em></h2>
+  <p style="font-size:.88rem;color:rgba(255,255,255,.4);margin-top:1rem;font-weight:300" class="reveal rd2">Drag to explore seven decades of milestones →</p>
+  <div class="tl-wrap reveal rd2">
+    <div class="tl-line"></div>
+    <div class="tl-items" id="tlItems">
+      <div class="tl-item"><div class="tl-year">1954</div><div class="tl-event"><strong>Operations Begin</strong><br>First bus operator in Mauritius as Rose Hill Transport Ltd</div><div class="tl-dot"></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1965</div><div class="tl-event"><strong>Auto Transmission</strong><br>First automatic transmission introduced in buses</div></div>
+      <div class="tl-item"><div class="tl-year">1998</div><div class="tl-event"><strong>ICL Launch</strong><br>Pioneer GPS Tracking services in Mauritius</div><div class="tl-dot"></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2001</div><div class="tl-event"><strong>Stock Exchange</strong><br>Listed on DEM of Stock Exchange of Mauritius</div></div>
+      <div class="tl-item"><div class="tl-year">2005</div><div class="tl-event"><strong>E-Fares</strong><br>Introduction of Electronic Fare Systems</div><div class="tl-dot"></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2010</div><div class="tl-event"><strong>Free WiFi</strong><br>First free WiFi buses in Mauritius</div></div>
+      <div class="tl-item"><div class="tl-year">2013</div><div class="tl-event"><strong>ISO 9001</strong><br>Acquired international quality certification</div><div class="tl-dot"></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2014</div><div class="tl-event"><strong>MBEA Award</strong><br>Winner of Mauritius Business Excellence Award</div></div>
+      <div class="tl-item"><div class="tl-year">2015</div><div class="tl-event"><strong>SEMSI</strong><br>Joined SEM Sustainability Index</div><div class="tl-dot"></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2016</div><div class="tl-event"><strong>Africa Office</strong><br>ICL Zambia launched in Lusaka</div></div>
+      <div class="tl-item"><div class="tl-year">2017</div><div class="tl-event"><strong>FleetPro</strong><br>Leasing &amp; fleet management branch created</div><div class="tl-dot"></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2018</div><div class="tl-event"><strong>Electric Buses</strong><br>First EV fleet launched in Mauritius</div></div>
+      <div class="tl-item"><div class="tl-year">2019</div><div class="tl-event"><strong>RHT Africa</strong><br>Regional mobility company launched in Kampala</div><div class="tl-dot"></div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2020</div><div class="tl-event"><strong>Tondeka OMC</strong><br>1,030 buses for Kampala Mass Transit</div></div>
+      <div class="tl-item"><div class="tl-year">2021</div><div class="tl-event"><strong>VUT &amp; Uganda</strong><br>Victoria Urban Terminal + BRT deployment</div><div class="tl-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLUSTERS -->
+<section class="clusters" id="clusters">
+  <div class="section-label reveal"><div class="sll"></div><span class="slt">Business Segments</span></div>
+  <h2 class="section-title reveal rd1">OUR <em>CLUSTERS</em></h2>
+  <div class="clusters-grid">
+    <div class="cc reveal rd1">
+      <div class="cc-num">01</div><div class="cc-icon">🚌</div><div class="cc-cat">Cluster One</div><div class="cc-title">MOBILITY</div>
+      <p class="cc-desc">Trendsetters in offering safe, reliable and modern mobility solutions facilitating the daily movements of thousands of people across Mauritius and Africa.</p>
+      <div class="cc-tags"><span class="cc-tag">RHT Bus Services</span><span class="cc-tag">FLO Mobility</span><span class="cc-tag">FleetPro</span><span class="cc-tag">RHT Africa</span><span class="cc-tag">izy.market</span></div>
+    </div>
+    <div class="cc reveal rd2">
+      <div class="cc-num">02</div><div class="cc-icon">💡</div><div class="cc-cat">Cluster Two</div><div class="cc-title">TECHNOLOGY</div>
+      <p class="cc-desc">Developing innovative connected solutions for transportation, fleet management, GPS telematics, IoT and digital services for public and private sectors.</p>
+      <div class="cc-tags"><span class="cc-tag">ICL</span><span class="cc-tag">ICL Zambia</span><span class="cc-tag">GPS Tracking</span><span class="cc-tag">IoT Solutions</span><span class="cc-tag">Cashless Systems</span></div>
+    </div>
+    <div class="cc reveal rd3">
+      <div class="cc-num">03</div><div class="cc-icon">📈</div><div class="cc-cat">Cluster Three</div><div class="cc-title">INVESTMENT</div>
+      <p class="cc-desc">Investing in local and international assets across banking, tourism, insurance and pharmaceuticals, with tailored consultancy on a wide range of fund structures.</p>
+      <div class="cc-tags"><span class="cc-tag">RHT Investment</span><span class="cc-tag">Equity Trading</span><span class="cc-tag">ETF</span><span class="cc-tag">Forex</span><span class="cc-tag">10+ Projects</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPANIES STRIP -->
+<div class="co-strip">
+  <div class="co-label reveal">Our Companies</div>
+  <div class="co-logos reveal rd1">
+    <div class="co-logo">RHT Bus Services</div>
+    <div class="co-logo">FLO Mobility</div>
+    <div class="co-logo">ICL</div>
+    <div class="co-logo">FleetPro Services</div>
+    <div class="co-logo">RHT Africa</div>
+    <div class="co-logo">ICL Zambia</div>
+    <div class="co-logo">RHT Investment</div>
+    <div class="co-logo">izy.market</div>
+    <div class="co-logo">Rozil Moto École</div>
+  </div>
+</div>
+
+<!-- PRESENCE -->
+<section class="presence" id="presence">
+  <div class="section-label reveal"><div class="sll"></div><span class="slt">Global Reach</span></div>
+  <h2 class="section-title reveal rd1">OUR <em>PRESENCE</em></h2>
+  <div class="presence-grid">
+    <div class="reveal rd2">
+      <div class="map-container">
+        <svg viewBox="0 0 440 560" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+          <defs><pattern id="gdots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="rgba(255,255,255,0.055)"/></pattern></defs>
+          <rect width="440" height="560" fill="url(#gdots)"/>
+          <path d="M130,45 L170,32 L210,38 L260,30 L310,52 L342,85 L352,128 L360,170 L365,215 L358,258 L345,298 L322,338 L295,370 L262,398 L232,428 L208,458 L185,475 L162,458 L142,428 L118,396 L96,362 L78,325 L68,285 L63,245 L68,205 L80,165 L92,125 L98,85 Z" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.07)" stroke-width="1.2"/>
+          <line x1="355" y1="418" x2="248" y2="268" stroke="rgba(232,25,44,0.12)" stroke-width="1" stroke-dasharray="5,5"/>
+          <line x1="355" y1="418" x2="228" y2="332" stroke="rgba(232,25,44,0.09)" stroke-width="1" stroke-dasharray="5,5"/>
+          <line x1="355" y1="418" x2="275" y2="258" stroke="rgba(232,25,44,0.09)" stroke-width="1" stroke-dasharray="5,5"/>
+          <circle cx="355" cy="418" r="7" fill="rgba(232,25,44,0.9)"/>
+          <circle cx="355" cy="418" r="14" fill="none" stroke="rgba(232,25,44,0.3)" stroke-width="1.2"><animate attributeName="r" values="14;22;14" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.3;0;0.3" dur="2.2s" repeatCount="indefinite"/></circle>
+          <text x="366" y="412" fill="rgba(255,255,255,0.75)" font-size="9.5" font-family="Syne,sans-serif" font-weight="700" letter-spacing="1.5">MAURITIUS</text>
+          <circle cx="248" cy="268" r="6" fill="rgba(201,168,76,0.9)"/>
+          <circle cx="248" cy="268" r="13" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="1"><animate attributeName="r" values="13;20;13" dur="2.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.3;0;0.3" dur="2.8s" repeatCount="indefinite"/></circle>
+          <text x="258" y="263" fill="rgba(255,255,255,0.7)" font-size="9" font-family="Syne,sans-serif" font-weight="600" letter-spacing="1.2">UGANDA</text>
+          <circle cx="228" cy="332" r="5" fill="rgba(201,168,76,0.75)"/>
+          <circle cx="228" cy="332" r="11" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="1"><animate attributeName="r" values="11;17;11" dur="3.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.2;0;0.2" dur="3.2s" repeatCount="indefinite"/></circle>
+          <text x="237" y="327" fill="rgba(255,255,255,0.55)" font-size="8.5" font-family="Syne,sans-serif" font-weight="600" letter-spacing="1">ZAMBIA</text>
+          <circle cx="275" cy="258" r="5" fill="rgba(201,168,76,0.75)"/>
+          <text x="283" y="253" fill="rgba(255,255,255,0.55)" font-size="8.5" font-family="Syne,sans-serif" font-weight="600" letter-spacing="1">KENYA</text>
+          <circle cx="98" cy="185" r="4" fill="rgba(255,255,255,0.28)"/>
+          <text x="106" y="180" fill="rgba(255,255,255,0.32)" font-size="8" font-family="Syne,sans-serif" letter-spacing="0.8">SENEGAL</text>
+          <circle cx="312" cy="210" r="4" fill="rgba(255,255,255,0.28)"/>
+          <text x="320" y="205" fill="rgba(255,255,255,0.32)" font-size="8" font-family="Syne,sans-serif" letter-spacing="0.8">DJIBOUTI</text>
+        </svg>
+        <div class="pulse-legend">
+          <div class="pl-item"><div class="pl-dot" style="background:var(--red)"></div>Main Office</div>
+          <div class="pl-item"><div class="pl-dot" style="background:var(--gold)"></div>Regional Office</div>
+          <div class="pl-item"><div class="pl-dot" style="background:rgba(255,255,255,.3)"></div>Partner</div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal rd2">
+      <p class="presence-intro">We make people's lives easier by developing <strong>innovative solutions</strong> that are easy to access, economical, efficient and sustainable across Africa.</p>
+      <div class="pl-country"><div class="pl-country-dot" style="background:var(--red)"></div><span class="pl-country-name">Mauritius</span><span class="pl-country-role">Main Office</span></div>
+      <div class="pl-country"><div class="pl-country-dot" style="background:var(--gold)"></div><span class="pl-country-name">Uganda</span><span class="pl-country-role">Regional Office</span></div>
+      <div class="pl-country"><div class="pl-country-dot" style="background:var(--gold)"></div><span class="pl-country-name">Zambia</span><span class="pl-country-role">Regional Office</span></div>
+      <div class="pl-country"><div class="pl-country-dot" style="background:var(--gold)"></div><span class="pl-country-name">Kenya</span><span class="pl-country-role">Regional Office</span></div>
+      <div class="pl-country"><div class="pl-country-dot" style="background:rgba(255,255,255,.3)"></div><span class="pl-country-name">Senegal</span><span class="pl-country-role">Partner</span></div>
+      <div class="pl-country"><div class="pl-country-dot" style="background:rgba(255,255,255,.3)"></div><span class="pl-country-name">Djibouti</span><span class="pl-country-role">Partner</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- BRT -->
+<section class="brt" id="brt">
+  <div class="section-label reveal"><div class="sll"></div><span class="slt">Core Capability</span></div>
+  <h2 class="section-title reveal rd1">THE BRT <em>ECOSYSTEM</em></h2>
+  <div class="brt-grid">
+    <div class="brt-orbit reveal rd2">
+      <div class="brt-ring2"></div>
+      <div class="brt-ring"></div>
+      <div class="brt-core">BRT</div>
+      <div class="brt-node" style="top:2%;left:50%;transform:translateX(-50%)"><div class="brt-node-dot"></div><div class="brt-node-lbl">Contact Mgmt</div></div>
+      <div class="brt-node" style="top:15%;right:3%"><div class="brt-node-dot"></div><div class="brt-node-lbl">Fare Determination</div></div>
+      <div class="brt-node" style="top:43%;right:-2px"><div class="brt-node-dot"></div><div class="brt-node-lbl">Fare Collection</div></div>
+      <div class="brt-node" style="bottom:13%;right:3%"><div class="brt-node-dot"></div><div class="brt-node-lbl">Depot Mgmt</div></div>
+      <div class="brt-node" style="bottom:2%;left:50%;transform:translateX(-50%)"><div class="brt-node-dot"></div><div class="brt-node-lbl">Revenue Mgmt</div></div>
+      <div class="brt-node" style="bottom:13%;left:3%"><div class="brt-node-dot"></div><div class="brt-node-lbl">Bus Maintenance</div></div>
+      <div class="brt-node" style="top:43%;left:-2px"><div class="brt-node-dot"></div><div class="brt-node-lbl">Feeder System</div></div>
+      <div class="brt-node" style="top:15%;left:3%"><div class="brt-node-dot"></div><div class="brt-node-lbl">ITMS / AI</div></div>
+    </div>
+    <div class="brt-feats reveal rd2">
+      <div class="brt-feat"><div class="brt-feat-icon">🚍</div><div><div class="brt-feat-title">Promote Public Transport</div><div class="brt-feat-desc">An alternative to conventional bus and tramway solutions — designed to increase ridership through modal shift and reduce private vehicle dependency.</div></div></div>
+      <div class="brt-feat"><div class="brt-feat-icon">✨</div><div><div class="brt-feat-title">Seamless Passenger Experience</div><div class="brt-feat-desc">Real-time information, cashless payment, smart scheduling and CCTV-integrated safety for a truly modern journey.</div></div></div>
+      <div class="brt-feat"><div class="brt-feat-icon">🌍</div><div><div class="brt-feat-title">Sustainable Mobility</div><div class="brt-feat-desc">Combating urban congestion and harmful emissions while building accessible, equitable transit for fast-growing African cities.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section class="cases" id="cases">
+  <div class="section-label reveal"><div class="sll"></div><span class="slt">Impact Stories</span></div>
+  <h2 class="section-title reveal rd1">CASE <em>STUDIES</em></h2>
+  <div class="cases-grid">
+    <div class="case-card reveal rd2">
+      <div class="case-top"><div class="case-ghost">TMC</div><div class="case-flag">🇺🇬 Uganda · 2020</div><div class="case-title">TONDEKA METRO<br>CORPORATION</div></div>
+      <div class="case-body">
+        <div class="case-kpis">
+          <div><div class="kpi-num">1,030</div><div class="kpi-lbl">Buses Operated</div></div>
+          <div><div class="kpi-num"><b>1.2</b>M</div><div class="kpi-lbl">Daily Passengers</div></div>
+          <div><div class="kpi-num">50</div><div class="kpi-lbl">Electric Buses</div></div>
+          <div><div class="kpi-num">12K</div><div class="kpi-lbl">Staff Managed</div></div>
+        </div>
+        <p class="case-desc">Signed first OMC contract for the operation of 1,030 buses in greater Kampala. Established CCTV, GPS, Traffic Management and cashless payment systems across a 30km operational radius.</p>
+      </div>
+    </div>
+    <div class="case-card reveal rd3">
+      <div class="case-top"><div class="case-ghost">VUT</div><div class="case-flag">🇲🇺 Mauritius · 2019</div><div class="case-title">VICTORIA URBAN<br>TERMINAL</div></div>
+      <div class="case-body">
+        <div class="case-kpis">
+          <div><div class="kpi-num"><b>Rs</b>1.9B</div><div class="kpi-lbl">Project Investment</div></div>
+          <div><div class="kpi-num">125K</div><div class="kpi-lbl">Daily Travellers</div></div>
+          <div><div class="kpi-num">638</div><div class="kpi-lbl">Workers On Site</div></div>
+          <div><div class="kpi-num">2km²</div><div class="kpi-lbl">Surface Area</div></div>
+        </div>
+        <p class="case-desc">Providing technical expertise in Public Transport Management, Passenger Information Systems, Terminal Management and Parking Management for Mauritius's landmark Rs1.9B urban transit hub.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why" id="why">
+  <div class="section-label reveal"><div class="sll"></div><span class="slt">Why Choose Us</span></div>
+  <h2 class="section-title reveal rd1">WHY <em>RHT</em></h2>
+  <div class="why-grid">
+    <div class="why-card reveal rd1"><div class="why-num">01</div><div class="why-title">Strong Client Relationships</div><div class="why-desc">We are closely connected and dedicated to those we work with, building long-term partnerships founded on trust and mutual growth.</div></div>
+    <div class="why-card reveal rd2"><div class="why-num">02</div><div class="why-title">Deep Know-How</div><div class="why-desc">Seven decades of mobility expertise translated into knowledge-sharing and consultancy solutions addressing today's most complex transport challenges.</div></div>
+    <div class="why-card reveal rd3"><div class="why-num">03</div><div class="why-title">Passenger-Centric</div><div class="why-desc">We deliver the best possible service to our passengers — always and everywhere — putting user experience at the centre of everything we build.</div></div>
+    <div class="why-card reveal rd4"><div class="why-num">04</div><div class="why-title">Always On The Move</div><div class="why-desc">We constantly provide advanced transportation solutions suited to today's world, from electric fleets to AI-powered transit intelligence systems.</div></div>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="clients-section">
+  <div class="section-label reveal"><div class="sll"></div><span class="slt">Our Clients</span></div>
+  <h2 class="section-title reveal rd1">TRUSTED BY <em>LEADERS</em></h2>
+  <div class="clients-chips reveal rd2">
+    <div class="client-chip"><span class="client-chip-flag">🇲🇺</span><span class="client-chip-name">National Land Transport Authority</span></div>
+    <div class="client-chip"><span class="client-chip-flag">🇺🇬</span><span class="client-chip-name">Ministry of Works &amp; Transport</span></div>
+    <div class="client-chip"><span class="client-chip-flag">🇺🇬</span><span class="client-chip-name">Tondeka Metro Corporation</span></div>
+    <div class="client-chip"><span class="client-chip-flag">🇺🇬</span><span class="client-chip-name">Kampala Capital City Authority</span></div>
+    <div class="client-chip"><span class="client-chip-flag">🇺🇬</span><span class="client-chip-name">Kiira Motors Corporation</span></div>
+    <div class="client-chip"><span class="client-chip-flag">🇲🇺</span><span class="client-chip-name">Metro Express</span></div>
+    <div class="client-chip"><span class="client-chip-flag">🇲🇺</span><span class="client-chip-name">Road Transport Division</span></div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team" id="team">
+  <div class="section-label reveal"><div class="sll"></div><span class="slt">Leadership</span></div>
+  <h2 class="section-title reveal rd1">MANAGEMENT <em>TEAM</em></h2>
+  <div class="team-grid">
+    <div class="tm reveal rd1"><div class="tm-av">SS</div><div class="tm-name">Sidarth Sharma</div><div class="tm-role">Group CEO</div></div>
+    <div class="tm reveal rd2"><div class="tm-av">RG</div><div class="tm-name">Ravindra Goburdhun</div><div class="tm-role">Chief Operating Officer</div></div>
+    <div class="tm reveal rd3"><div class="tm-av">PR</div><div class="tm-name">Prakash Rajkomar</div><div class="tm-role">Group Treasurer</div></div>
+    <div class="tm reveal rd2"><div class="tm-av">AA</div><div class="tm-name">Ajmal Abdool</div><div class="tm-role">Chief Innovation Officer</div></div>
+    <div class="tm reveal rd3"><div class="tm-av">RB</div><div class="tm-name">Rajkoomar Balkrishoon</div><div class="tm-role">Engineering Consultant</div></div>
+    <div class="tm reveal rd1"><div class="tm-av">RS</div><div class="tm-name">Reehaz Soobhany</div><div class="tm-role">Chief Operating Officer</div></div>
+    <div class="tm reveal rd2"><div class="tm-av">JM</div><div class="tm-name">Jamil Malik</div><div class="tm-role">CEO, RHT Africa</div></div>
+    <div class="tm reveal rd3"><div class="tm-av">AR</div><div class="tm-name">Ashwin Ramchurn</div><div class="tm-role">Engineering Manager</div></div>
+    <div class="tm reveal rd2"><div class="tm-av">HB</div><div class="tm-name">Hussayn Baulum</div><div class="tm-role">Head of Training</div></div>
+    <div class="tm reveal rd4" style="border-color:rgba(232,25,44,.15);background:rgba(232,25,44,.03)"><div class="tm-av" style="background:rgba(232,25,44,.12);font-size:2rem">+</div><div class="tm-name" style="color:var(--grey)">400+ Team Members</div><div class="tm-role">Across 4 Countries</div></div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="partners" id="partners">
+  <div class="section-label reveal"><div class="sll"></div><span class="slt">Our Ecosystem</span></div>
+  <h2 class="section-title reveal rd1">OUR <em>PARTNERS</em></h2>
+  <div class="partners-cats">
+    <div class="reveal rd1"><div class="pc-title">OEM Partners</div><div class="partner-list"><div class="partner-item">Golden Dragon</div><div class="partner-item">Ashok Leyland</div><div class="partner-item">Zhong Tong Bus</div></div></div>
+    <div class="reveal rd2"><div class="pc-title">Financial Advisors</div><div class="partner-list"><div class="partner-item">Transport Investment Limited (TIL)</div><div class="partner-item">MCB Group</div></div></div>
+    <div class="reveal rd3"><div class="pc-title">Technology Providers</div><div class="partner-list"><div class="partner-item">TapToPay</div><div class="partner-item">LIT Transit</div><div class="partner-item">ColumbiaSoft</div><div class="partner-item">Semnox</div><div class="partner-item">Geotab</div><div class="partner-item">Swarco Traffic Systems</div></div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <div class="cta-ring1"></div>
+  <div class="cta-ring2"></div>
+  <div class="reveal">
+    <h2 class="cta-title">READY TO<br>MOVE <span>FORWARD?</span></h2>
+    <p class="cta-sub">Partner with RHT Holding to transform mobility and transportation in your city or country. Let's build a smarter, greener Africa together.</p>
+    <div class="cta-actions">
+      <a href="mailto:info@rht.africa" class="btn-primary">Get In Touch <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="https://www.rht.mu" target="_blank" class="btn-ghost">Visit Website <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+    </div>
+    <p class="cta-contact">19, Gordon Street, Rose-Hill, Mauritius &nbsp;·&nbsp; <a href="tel:+2304641221">+230 464 1221</a> &nbsp;·&nbsp; <a href="mailto:info@rht.africa">info@rht.africa</a></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <div>
+      <div class="ft-brand-name">RH<span>T</span> HOLDING</div>
+      <p class="ft-brand-desc">An integrator of innovative solutions transforming mobility, technology and investment worldwide. Founded in Mauritius in 1954. Listed on the Stock Exchange of Mauritius.</p>
+      <div class="ft-contact-list">
+        <div class="ft-ci">📍 19, Gordon Street, Rose-Hill, Mauritius</div>
+        <div class="ft-ci">📞 +230 464 1221 / +230 464 6023</div>
+        <div class="ft-ci">✉️ info@rht.africa</div>
+        <div class="ft-ci">🌐 www.rht.mu</div>
+      </div>
+      <div class="ft-social"><a class="ft-si" href="#">f</a><a class="ft-si" href="#">in</a></div>
+    </div>
+    <div><div class="ft-col-title">Mobility</div><ul class="ft-links"><li><a href="#">RHT Bus Services</a></li><li><a href="#">FLO Mobility</a></li><li><a href="#">FleetPro Services</a></li><li><a href="#">RHT Africa</a></li><li><a href="#">izy.market</a></li></ul></div>
+    <div><div class="ft-col-title">Technology</div><ul class="ft-links"><li><a href="#">ICL</a></li><li><a href="#">ICL Zambia</a></li><li><a href="#">GPS Telematics</a></li><li><a href="#">IoT Solutions</a></li><li><a href="#">Cashless Systems</a></li></ul></div>
+    <div><div class="ft-col-title">Company</div><ul class="ft-links"><li><a href="#">About RHT</a></li><li><a href="#">Investment</a></li><li><a href="#">Sustainability</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
+  </div>
+  <div class="ft-bottom">
+    <span class="ft-copy">© 2024 RHT Holding Ltd. All rights reserved. Listed on the Stock Exchange of Mauritius.</span>
+    <ul class="ft-bl"><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms</a></li><li><a href="#">Sitemap</a></li></ul>
+  </div>
+</footer>
+
+<script>
+/* LOADER */
+(function(){
+  const loader=document.getElementById('loader');
+  const pct=document.getElementById('loaderPct');
+  document.body.style.overflow='hidden';
+  let p=0;
+  const iv=setInterval(()=>{
+    p=Math.min(p+Math.random()*18,100);
+    pct.textContent=Math.floor(p)+'%';
+    if(p>=100){clearInterval(iv);pct.textContent='100%';setTimeout(()=>{loader.classList.add('hidden');document.body.style.overflow='';},420);}
+  },80);
+})();
+
+/* PROGRESS BAR */
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('progress-bar').style.width=(window.scrollY/h*100)+'%';
+},{passive:true});
+
+/* NAV */
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',window.scrollY>80),{passive:true});
+function toggleNav(){document.getElementById('navLinks').classList.toggle('open');}
+document.querySelectorAll('#navLinks a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open')));
+
+/* CURSOR */
+const cursor=document.getElementById('cursor');
+const ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';},{passive:true});
+(function animR(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animR);})();
+const hoverEls='a,button,.cc,.case-card,.tm,.why-card,.pillar,.pl-country,.partner-item,.co-logo,.client-chip,.af,.brt-feat';
+document.querySelectorAll(hoverEls).forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='18px';cursor.style.height='18px';cursor.style.background='rgba(232,25,44,.5)';ring.style.width='52px';ring.style.height='52px';});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';cursor.style.background='var(--red)';ring.style.width='38px';ring.style.height='38px';});
+});
+
+/* REVEAL */
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+
+/* ANIMATED COUNTERS */
+function easeOut(t){return 1-(1-t)*(1-t);}
+function animCount(el,target,suffix){
+  const dur=2000,start=performance.now();
+  (function f(now){
+    const p=Math.min((now-start)/dur,1);
+    const val=Math.floor(easeOut(p)*target);
+    el.innerHTML=(val>=1000?val.toLocaleString():val)+'<span>'+suffix+'</span>';
+    if(p<1)requestAnimationFrame(f);
+  })(start);
+}
+const cObs=new IntersectionObserver(entries=>entries.forEach(e=>{
+  if(!e.isIntersecting)return;
+  const el=e.target,t=parseInt(el.dataset.count),s=el.dataset.suffix||'';
+  if(t)animCount(el,t,s);
+  cObs.unobserve(el);
+}),{threshold:.3});
+document.querySelectorAll('[data-count]').forEach(el=>cObs.observe(el));
+
+/* SMOOTH ANCHORS */
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+  const t=document.querySelector(a.getAttribute('href'));
+  if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+}));
+
+/* HERO PARALLAX */
+const hc=document.querySelector('.hero-content');
+const hr=document.querySelector('.hero-right');
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY,h=window.innerHeight;
+  if(y<h){
+    const p=y/h;
+    if(hc){hc.style.transform=`translateY(${y*.18}px)`;hc.style.opacity=Math.max(0,1-p*1.5);}
+    if(hr){hr.style.transform=`translateY(calc(-50% + ${y*.1}px))`;hr.style.opacity=Math.max(0,1-p*1.7);}
+  }
+},{passive:true});
+
+/* TIMELINE DRAG */
+const tl=document.getElementById('tlItems');
+if(tl){
+  let down=false,sx,sl;
+  tl.addEventListener('mousedown',e=>{down=true;sx=e.pageX-tl.offsetLeft;sl=tl.scrollLeft;});
+  ['mouseleave','mouseup'].forEach(ev=>tl.addEventListener(ev,()=>down=false));
+  tl.addEventListener('mousemove',e=>{if(!down)return;e.preventDefault();tl.scrollLeft=sl-(e.pageX-tl.offsetLeft-sx)*1.5;});
+}
+</script>
+</body>
+</html>
